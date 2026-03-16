@@ -4,6 +4,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useState } from "react";
 import PaginationComponent from "src/components/common/Pagination";
 import SearchBarWithFilters from "src/components/pages/products/SearchBarWithFilters";
+import { apiFetch } from "src/utils/apiFetch";
 
 
 export interface IProductData {
@@ -21,12 +22,13 @@ export interface IProductData {
 
 interface IProductPageProps {
     productsData: IProductData[];
+    error: string;
 }
 
 const itemsShownPerPage = 8;
 
 const ProductPage: NextPage<IProductPageProps> = (props: IProductPageProps) => {
-    const { productsData } = props;
+    const { productsData, error } = props;
 
     const [searchText, setSearchText] = useState("");
 
@@ -50,6 +52,8 @@ const ProductPage: NextPage<IProductPageProps> = (props: IProductPageProps) => {
 
     const itemsToShow = filteredProducts.slice(startIndex, startIndex + itemsShownPerPage);
 
+    if (error) return <div>Something went wrong!! Try again later.</div>
+
     return (
         <Container className="py-5">
             <SearchBarWithFilters setSearchText={setSearchText} categoryList={categoryList} category={category} setCategory={setCategory}
@@ -68,13 +72,23 @@ const ProductPage: NextPage<IProductPageProps> = (props: IProductPageProps) => {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-    const data = await fetch('https://fakestoreapi.com/products');
-    return ({
-        props: {
-            productsData: await data.json()
-        }
-    })
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+    const sort = query.sort || 'asc'
+    try {
+        const data = await apiFetch(`https://fakestoreapi.com/products?sort=${sort}`);
+        return ({
+            props: {
+                productsData: data
+            }
+        })
+    }
+    catch (error) {
+        return ({
+            props: {
+                productsData: [], error: error.message
+            }
+        })
+    }
 }
 
 export default ProductPage;
