@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap');
+
+.paginationWrapper {
+    font-family: 'DM Sans', sans-serif;
+    user-select: none;
+}
+
+.paginationWrapper :global(.pagination) {
+    gap: 4px;
+    margin: 0;
+}
+
+.paginationWrapper :global(.page-item .page-link) {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+    background: #fff;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 8px !important;
+    padding: 7px 13px;
+    min-width: 36px;
+    text-align: center;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.paginationWrapper :global(.page-item .page-link:hover) {
+    background: #f7f6f2;
+    border-color: #aaa;
+    color: #1a1a1a;
+    box-shadow: none;
+}
+
+.paginationWrapper :global(.page-item .page-link:focus) {
+    box-shadow: none;
+    outline: none;
+}
+
+.paginationWrapper :global(.page-item.active .page-link) {
+    background: #1a1a1a;
+    border-color: #1a1a1a;
+    color: #fff;
+}
+
+.paginationWrapper :global(.page-item.disabled .page-link) {
+    background: #fafaf9;
+    border-color: #e0e0e0;
+    color: #ccc;
+    cursor: not-allowed;
+}
