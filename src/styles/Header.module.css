@@ -66,3 +66,21 @@
     justify-content: center;
     font-family: 'DM Sans', sans-serif;
 }
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.iconBtn:has(.avatar) {
+    background: #f7f6f2;
+    border-color: #1a1a1a;
+}

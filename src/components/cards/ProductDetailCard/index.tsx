@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { Col, Container, Row, Button, Stack } from "react-bootstrap";
+import AuthContext from "src/contexts/AuthContext";
 import CartContext from "src/contexts/CartContext";
 import { addToCart } from "src/contexts/CartContext/actions";
 import styles from "src/styles/ProductDetailCard.module.css";
@@ -27,6 +28,8 @@ const ProductDetailCard = ({
     const { back } = useRouter();
 
     const { state, dispatch } = useContext(CartContext);
+    const { state: authState } = useContext(AuthContext);
+
     return (
         <Container className="py-5">
             <Button variant="outline-secondary" className={styles.backBtn} onClick={() => back()}>
@@ -55,14 +58,18 @@ const ProductDetailCard = ({
                     <p className={styles.description}>{description}</p>
 
                     <Stack direction="horizontal" gap={3} className="mt-4">
-                        <Button variant="dark" className={styles.primaryBtn} onClick={() => dispatch(addToCart({
-                            id,
-                            title,
-                            image,
-                            price,
-                        }))}>
-                            Add to Cart
-                        </Button>
+                        {authState.isLoggedIn ?
+                            <Button variant="dark" className={styles.primaryBtn} onClick={() => dispatch(addToCart({
+                                id,
+                                title,
+                                image,
+                                price,
+                            }))}>
+                                Add to Cart
+                            </Button>
+                            : <Button variant="dark" className={styles.primaryBtn} >
+                                Please login to add this item to your cart.
+                            </Button>}
                     </Stack>
                 </Col>
             </Row>
